@@ -9,6 +9,7 @@ Available methods and their singatures are:
 
 ```rust
 fn split(&self, pat: &OsStr) -> Vec<OsString>;
+fn split_lines(&self) -> Vec<OsString>;
 fn replace(&self, from: &OsStr, to: &OsStr) -> OsString;
 fn trim_last_space(&self) -> OsString;
 fn contains_osstr(&self, pat: &OsStr) -> bool;

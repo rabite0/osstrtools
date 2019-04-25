@@ -4,6 +4,7 @@ use std::ffi::{OsStr, OsString};
 
 pub trait OsStrTools {
     fn split(&self, pat: &OsStr) -> Vec<OsString>;
+    fn split_lines(&self) -> Vec<OsString>;
     fn replace(&self, from: &OsStr, to: &OsStr) -> OsString;
     fn trim_last_space(&self) -> OsString;
     fn contains_osstr(&self, pat: &OsStr) -> bool;
@@ -42,6 +43,10 @@ impl OsStrTools for OsStr {
         split_string
     }
 
+    fn split_lines(&self) -> Vec<OsString> {
+        let newline = OsString::from("\n");
+        self.split(&newline)
+    }
 
     fn quote(&self) -> OsString {
         let mut string = self.as_bytes().to_vec();
