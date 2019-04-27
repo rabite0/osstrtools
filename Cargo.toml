@@ -1,6 +1,6 @@
 [package]
 name = "osstrtools"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["rabite"]
 edition = "2018"
 description = "Additional helper methods for OsStr"

@@ -12,6 +12,7 @@ fn split(&self, pat: &OsStr) -> Vec<OsString>;
 fn split_lines(&self) -> Vec<OsString>;
 fn replace(&self, from: &OsStr, to: &OsStr) -> OsString;
 fn trim_last_space(&self) -> OsString;
+fn trim_end_newlines(&self) -> &OsStr;
 fn contains_osstr(&self, pat: &OsStr) -> bool;
 fn position(&self, pat: &OsStr) -> Option<usize>;
 fn splice_quoted(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;

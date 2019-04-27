@@ -7,6 +7,7 @@ pub trait OsStrTools {
     fn split_lines(&self) -> Vec<OsString>;
     fn replace(&self, from: &OsStr, to: &OsStr) -> OsString;
     fn trim_last_space(&self) -> OsString;
+    fn trim_end_newlines(&self) -> &OsStr;
     fn contains_osstr(&self, pat: &OsStr) -> bool;
     fn position(&self, pat: &OsStr) -> Option<usize>;
     fn splice_quoted(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
@@ -128,6 +129,35 @@ impl OsStrTools for OsStr {
             OsString::from_vec(string[..len-1].to_vec())
         } else {
             self.to_os_string()
+        }
+    }
+
+    fn trim_end_newlines(&self) -> &OsStr {
+        let newline = OsString::from(
+            String::from("\n")
+        ).as_bytes()[0];
+
+        let end_newline_pos = self.as_bytes()
+            .iter()
+            .enumerate()
+            .rev()
+            .fold(None, |pos, (i, ch)| {
+                dbg!(&pos);
+                dbg!(&i);
+                dbg!(&ch);
+                if ch != &newline && pos.is_none() {
+                    Some(i+1)
+                } else { pos }
+            });
+
+        dbg!(&end_newline_pos);
+
+        match end_newline_pos {
+            Some(pos) => {
+                let substr = &self.as_bytes()[0..pos];
+                OsStr::from_bytes(substr)
+            }
+            None => self
         }
     }
 
