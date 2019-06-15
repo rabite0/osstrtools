@@ -11,8 +11,10 @@ pub trait OsStrTools {
     fn contains_osstr(&self, pat: &OsStr) -> bool;
     fn position(&self, pat: &OsStr) -> Option<usize>;
     fn splice_quoted(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
+    fn splice_quoted_single(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
     fn splice_with(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
     fn quote(&self) -> OsString;
+    fn quote_single(&self) -> OsString;
 }
 
 impl OsStrTools for OsStr {
@@ -61,9 +63,28 @@ impl OsStrTools for OsStr {
         OsString::from_vec(quoted)
     }
 
+    fn quote_single(&self) -> OsString {
+        let mut string = self.as_bytes().to_vec();
+        let mut quote = "\'".as_bytes().to_vec();
+
+        let mut quoted = vec![];
+        quoted.append(&mut quote.clone());
+        quoted.append(&mut string);
+        quoted.append(&mut quote);
+
+        OsString::from_vec(quoted)
+    }
+
     fn splice_quoted(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString> {
         let quoted_to = to.iter()
             .map(|to| to.quote())
+            .collect();
+        self.splice_with(from, quoted_to)
+    }
+
+    fn splice_quoted_single(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString> {
+        let quoted_to = to.iter()
+            .map(|to| to.quote_single())
             .collect();
         self.splice_with(from, quoted_to)
     }

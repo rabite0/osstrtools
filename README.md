@@ -16,8 +16,10 @@ fn trim_end_newlines(&self) -> &OsStr;
 fn contains_osstr(&self, pat: &OsStr) -> bool;
 fn position(&self, pat: &OsStr) -> Option<usize>;
 fn splice_quoted(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
+fn splice_quoted_single(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
 fn splice_with(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
 fn quote(&self) -> OsString;
+fn quote_single(&self) -> OsString;
 ```
 
 If the demand is there I'm willing to add more, just ask and I'll see what I can do.
