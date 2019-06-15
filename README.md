@@ -20,6 +20,7 @@ fn splice_quoted_single(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>
 fn splice_with(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
 fn quote(&self) -> OsString;
 fn quote_single(&self) -> OsString;
+fn escape_single_quote(&self) -> OsString;
 ```
 
 If the demand is there I'm willing to add more, just ask and I'll see what I can do.

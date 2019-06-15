@@ -15,6 +15,7 @@ pub trait OsStrTools {
     fn splice_with(&self, from: &OsStr, to: Vec<OsString>) -> Vec<OsString>;
     fn quote(&self) -> OsString;
     fn quote_single(&self) -> OsString;
+    fn escape_single_quote(&self) -> OsString;
 }
 
 impl OsStrTools for OsStr {
@@ -197,5 +198,12 @@ impl OsStrTools for OsStr {
             .position(|chars|
                       chars == pat
             )
+    }
+
+    fn escape_single_quote(&self) -> OsString {
+        let single_quote = OsString::from("'");
+        let single_quote_escaped = OsString::from("'\''");
+
+        self.replace(&single_quote, &single_quote_escaped)
     }
 }
