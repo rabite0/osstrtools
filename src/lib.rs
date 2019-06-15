@@ -163,15 +163,10 @@ impl OsStrTools for OsStr {
             .enumerate()
             .rev()
             .fold(None, |pos, (i, ch)| {
-                dbg!(&pos);
-                dbg!(&i);
-                dbg!(&ch);
                 if ch != &newline && pos.is_none() {
                     Some(i+1)
                 } else { pos }
             });
-
-        dbg!(&end_newline_pos);
 
         match end_newline_pos {
             Some(pos) => {
