@@ -202,25 +202,8 @@ impl OsStrTools for OsStr {
 
     fn escape_single_quote(&self) -> OsString {
         let single_quote = OsString::from("'");
-        let single_quote_escaped = OsString::from("'\''");
+        let single_quote_escaped = OsString::from("'\\''");
 
         self.replace(&single_quote, &single_quote_escaped)
     }
-}
-
-
-#[test]
-fn test_escaple_single_quote() {
-    let test_string = OsString::from("ab'cde''fg");
-    let wanted_string = OsString::from("ab'\''cde'\'''\''fg");
-    let escaped_string = test_string.escape_single_quote();
-    assert_eq!(escaped_string, wanted_string)
-}
-
-#[test]
-fn test_escaple_single_quote2() {
-    let test_string = OsString::from("abc'de\"fg$foo");
-    let wanted_string = OsString::from("abc'\''de\"fg$foo");
-    let escaped_string = test_string.escape_single_quote();
-    assert_eq!(escaped_string, wanted_string)
 }
