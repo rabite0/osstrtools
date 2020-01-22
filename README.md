@@ -19,5 +19,9 @@ checking is done by
 Right now Windows support is still gated behind a feature flag. To
 enable it add this to your `Cargo.toml`:
 
+
+
+```toml
 [dependencies]
 osstrtools = { version = "0.2", features = ["windows"] }
+```
