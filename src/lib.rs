@@ -685,6 +685,48 @@ impl WinOsString for OsString {
 }
 
 #[cfg(target_os = "windows")]
+#[doc(cfg(windows))]
+#[doc(cfg(features = "windows"))]
+#[cfg(target_os = "windows")]
+#[cfg(features = "windows")]
+/// This uses unsafe transmutation. However, the lifetimes of passed
+/// in values are respected and all byte slices are checked before
+/// being turned into an `OsStr`. For example, this fails to compile:
+///
+/// ```compile_fail
+/// use std::ffi::{OsString, OsStr};
+/// use crate::osstrtools::{Bytes, WinOsStringExt, WinOsStrExt};
+/// fn test_lifetime() {
+///     let s: &[u8] = {
+///         let string = OsString::new();
+///         test_lifetime1(string)
+///     };
+///
+///     s.len();
+/// }
+///
+/// fn test_lifetime1(s: OsString) -> &'static [u8] {
+///     let byte_vec = s.into_vec();
+///     let byte_slice = byte_vec.as_byte_slice();
+///     let osstr = OsStr::from_bytes(byte_slice);
+///
+///     let bytes = osstr.as_bytes();
+///     bytes
+/// }
+/// ```
+///
+/// Similarly, this will panic (on Windows):
+///
+/// ```should_panic
+/// #[cfg(target_os = "windows")]
+/// #[cfg(features = "windows")]
+/// fn will_panic() {
+///     use std::ffi::{OsString, OsStr};
+///     use crate::osstrtools::{Bytes, WinOsStringExt, WinOsStrExt};
+///     let bytes: &[u8] = b"\xF1foo\xF1\x80bar\xF1\x80\x80baz";
+///     OsStr::from_bytes(bytes);
+/// }
+/// ```
 trait WinOsStr {
     fn from_bytes(bytes: &[u8]) -> &OsStr;
     fn as_bytes(&self) -> &[u8];
@@ -700,12 +742,12 @@ impl WinOsStr for OsStr {
             .expect("INVALID STRING: Tried to convert invalid WTF8 to OsStr!");
 
         // Since it's a valid OsStr this should be fine...
-        unsafe { std::mem::transmute(bytes) }
+        unsafe { (bytes as *const _).cast() }
     }
 
-    fn as_bytes(&self) -> &[u8] {
+    fn as_bytes<'s>(&'s self) -> &'s [u8] {
         // This should be fine in any case, as OsStr is just a &[u8]
-        unsafe { std::mem::transmute(self) }
+        unsafe { (bytes as *const _).cast:() }
     }
 }
 
