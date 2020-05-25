@@ -13,6 +13,10 @@
 //! some overhead since it requires checking the strings for
 //! correctness. The checking is done by
 //! [`os_str_bytes`](https://crates.io/crates/os_str_bytes).
+//!
+//! This crate is still maintained, but mostly has been deprecated in
+//! favor of [`bstr`](https://crates.io/crates/bstr). If any bugs
+//! remain it's likely they will be fixed as they come up, though.
 
 use itertools::{Itertools, Position};
 use std::ffi::{OsStr, OsString};
