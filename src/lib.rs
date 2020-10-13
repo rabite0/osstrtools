@@ -688,11 +688,9 @@ impl WinOsString for OsString {
     }
 }
 
+//#[doc(cfg(feature = "windows"))]
 #[cfg(target_os = "windows")]
-#[doc(cfg(windows))]
-#[doc(cfg(features = "windows"))]
-#[cfg(target_os = "windows")]
-#[cfg(features = "windows")]
+#[cfg(feature = "windows")]
 /// This uses unsafe transmutation. However, the lifetimes of passed
 /// in values are respected and all byte slices are checked before
 /// being turned into an `OsStr`. For example, this fails to compile:
@@ -723,7 +721,7 @@ impl WinOsString for OsString {
 ///
 /// ```should_panic
 /// #[cfg(target_os = "windows")]
-/// #[cfg(features = "windows")]
+/// #[cfg(feature = "windows")]
 /// fn will_panic() {
 ///     use std::ffi::{OsString, OsStr};
 ///     use crate::osstrtools::{Bytes, WinOsStringExt, WinOsStrExt};
