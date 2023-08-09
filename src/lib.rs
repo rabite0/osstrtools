@@ -751,7 +751,7 @@ impl WinOsStr for OsStr {
 
     fn as_bytes<'s>(&'s self) -> &'s [u8] {
         // This should be fine in any case, as OsStr is just a &[u8]
-        unsafe { (bytes as *const _).cast:() }
+        unsafe { (bytes as *const _).cast() }
     }
 }
 
